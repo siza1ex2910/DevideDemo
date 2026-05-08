@@ -1,0 +1,20 @@
+﻿services:
+  devide-demo:
+    image: siza1ex2910/devide-demo:1.0
+    container_name: devide-demo-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT}:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/products"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
